@@ -9,6 +9,7 @@ import recipeRouter from "./Routes/recipe-routes.js";
 import authRouter from "./Routes/auth-routes.js";
 import homeRouter from "./Routes/home-routes.js";
 import adminRouter from "./Routes/admin-routes.js";
+import imageRouter from "./Routes/image-routes.js";
 
 const PORT = process.env.PORT || 3000;
 
@@ -23,5 +24,6 @@ app.use("/api/recipes", recipeRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/home", homeRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/images", imageRouter);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

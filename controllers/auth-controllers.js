@@ -101,9 +101,80 @@ const loginUser = async (req, res) => {
     }
 }
 
+const logoutUser = async (req, res) => {
+    try {
+        res.status(200).json({
+            success: true,
+            message: "User logged out successfully",
+        });
+    } catch (error) {
+        console.log(error, "Error logging out user");
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            data: null
+        });
+    }
+}
+// change password
+const changePassword = async (req, res) => {
+    try {
+        // this will give the current user id from the auth-middleware
+        const userId = req.userInfo.userId;
+
+        //extract old and new password
+        const { oldPassword, newPassword } = req.body;
+
+        //find current logged in user
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+
+        //check if the old password is correct
+        const isPasswordMatch = await bcrypt.compare(oldPassword, user.password);
+        if (!isPasswordMatch) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid old password",
+            });
+        }
+
+        //hash new password
+        const salt = await bcrypt.genSalt(10);
+        const newHashedPassword = await bcrypt.hash(newPassword, salt);
+
+        //update password
+        user.password = newHashedPassword;
+        await user.save();
+
+        //send response
+        res.status(200).json({
+            success: true,
+            message: "Password changed successfully",
+        });
+
+
+
+    } catch (error) {
+        console.log(error, "Error changing password");
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            data: null
+        });
+    }
+}
+
 const authController = {
     registerUser,
-    loginUser
+    loginUser,
+    logoutUser,
+    changePassword,
 };
 
 export default authController;

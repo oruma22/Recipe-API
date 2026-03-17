@@ -36,8 +36,28 @@ const uploadImage = async (req, res) => {
     }
 }
 
+//fetch all images
+
+const fetchAllImages = async (req, res) => {
+    try {
+        const images = await Image.find();
+        res.status(200).json({
+            success: true,
+            message: "Images fetched successfully",
+            data: images
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+        });
+    }
+}
+
 const imageController = {
-    uploadImage
+    uploadImage,
+    fetchAllImages,
 };
 
 export default imageController;

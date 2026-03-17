@@ -11,6 +11,7 @@ router.post("/upload", authMiddleware, isAdmin, upload.single("image"), imageCon
 
 
 //get all the images
+router.get("/images", authMiddleware, imageController.fetchAllImages);
 
 
 
