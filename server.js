@@ -14,7 +14,9 @@ import imageRouter from "./Routes/image-routes.js";
 const PORT = process.env.PORT || 3000;
 
 //connecting the database to main entry server
-connectDB();
+if (process.env.NODE_ENV !== "test") {
+  connectDB();
+}
 
 //middleware -> express.json
 app.use(express.json());
@@ -26,4 +28,12 @@ app.use("/api/home", homeRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/images", imageRouter);
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Global Error Handler
+import globalErrorHandler from "./Middlewares/error-middleware.js";
+app.use(globalErrorHandler);
+
+if (process.env.NODE_ENV !== "test") {
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
+
+export default app;

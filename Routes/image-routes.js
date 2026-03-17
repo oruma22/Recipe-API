@@ -7,13 +7,15 @@ import upload from "../Middlewares/upload-middleware.js";
 const router = express.Router();
 
 //upload the image
-router.post("/upload", authMiddleware, isAdmin, upload.single("image"), imageController.uploadImage);
-
+router.post(
+  "/upload",
+  authMiddleware,
+  isAdmin,
+  upload.single("image"),
+  imageController.uploadImage,
+);
 
 //get all the images
 router.get("/images", authMiddleware, imageController.fetchAllImages);
-
-
-
 
 export default router;
