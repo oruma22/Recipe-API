@@ -1,6 +1,21 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Schema, Types } from "mongoose";
 
-const recipeSchema = new mongoose.Schema(
+export interface IRecipe extends Document {
+  title: string;
+  description: string;
+  ingredients: string[];
+  instructions: string[];
+  prepTime: number;
+  cookTime: number;
+  servings: number;
+  image: string;
+  category: "Breakfast" | "Lunch" | "Dinner" | "Dessert" | "Snack" | "Beverage";
+  author: Types.ObjectId;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const recipeSchema = new Schema<IRecipe>(
   {
     title: {
       type: String,
@@ -45,7 +60,7 @@ const recipeSchema = new mongoose.Schema(
     },
     // user that created the recipe
     author: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
@@ -53,4 +68,6 @@ const recipeSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-export default mongoose.model("Recipe", recipeSchema);
+const Recipe = mongoose.model<IRecipe>("Recipe", recipeSchema);
+
+export default Recipe;

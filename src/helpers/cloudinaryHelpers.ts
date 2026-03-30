@@ -1,13 +1,18 @@
-import cloudinary from "../config/cloudinary.js"; // Import the configured Cloudinary instance
+import cloudinary from "../config/cloudinary.js";
+
+interface UploadResult {
+  url: string;
+  public_id: string;
+}
 
 /**
  * Uploads a local file to Cloudinary.
  *
  * @param {string} filepath - The local path to the file that needs to be uploaded.
- * @returns {Promise<Object>} Returns an object containing the secure URL and the public ID of the uploaded image.
+ * @returns {Promise<UploadResult>} Returns an object containing the secure URL and the public ID of the uploaded image.
  * @throws {Error} Throws an error if the upload process fails.
  */
-const uploadToCloudinary = async (filepath) => {
+const uploadToCloudinary = async (filepath: string): Promise<UploadResult> => {
   try {
     // Use the cloudinary uploader to upload the file
     const uploadStream = await cloudinary.uploader.upload(filepath);
@@ -17,7 +22,7 @@ const uploadToCloudinary = async (filepath) => {
       url: uploadStream.secure_url,
       public_id: uploadStream.public_id,
     };
-  } catch (error) {
+  } catch (error: any) {
     // Log the exact error message for debugging purposes
     console.error("Error uploading to cloudinary", error.message);
     // Throw a generic error to be handled by the calling controller, preserving original cause

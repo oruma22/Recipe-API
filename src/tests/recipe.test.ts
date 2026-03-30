@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import app from "../server.js";
 import User from "../models/User.js";
-import Recipe from "../models/recipe.js";
+import Recipe from "../models/Recipe.js";
 import jwt from "jsonwebtoken";
 
-let mongoServer;
+let mongoServer: MongoMemoryServer;
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
@@ -29,7 +29,7 @@ describe("Recipe API", () => {
     username: "testuser",
     email: "test@example.com",
     password: "password123",
-    role: "user",
+    role: "user" as const,
   };
 
   const mockRecipe = {
@@ -44,7 +44,7 @@ describe("Recipe API", () => {
     image: "https://example.com/image.jpg",
   };
 
-  const getAuthToken = async (user) => {
+  const getAuthToken = async (user: any) => {
     const newUser = await User.create(user);
     return jwt.sign(
       { userId: newUser._id, username: newUser.username, role: newUser.role },

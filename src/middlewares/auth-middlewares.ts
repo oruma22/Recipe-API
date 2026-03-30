@@ -1,11 +1,12 @@
-//this is where we will put our authentication middleware that will check if the user is authenticated to access the protected routes
+import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-const authMiddleware = (req, res, next) => {
-  //get the token from the request header
-  //the token is sent in the format "Bearer <token>"
-  const authHeader = req.headers.authorization;
+export interface CustomRequest extends Request {
+  userInfo?: any;
+}
 
+const authMiddleware = (req: CustomRequest, res: Response, next: NextFunction) => {
+  const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
@@ -14,11 +15,9 @@ const authMiddleware = (req, res, next) => {
       message: "Unauthorized. No token provided. Please login to continue",
     });
   }
-  // Decode the token
 
   try {
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    // attach user info from the auth-controller to request
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY as string);
     req.userInfo = decodedToken;
     next();
   } catch (error) {

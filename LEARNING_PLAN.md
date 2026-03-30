@@ -84,3 +84,40 @@ This document breaks down the professional engineering patterns we implemented t
 2. **Global Error Handling** (The most powerful improvement for your code's "cleanliness").
 3. **Security/JWT** (Critical for real-world apps).
 4. **Automated Testing** (The hardest to master, but the most valuable skill for senior roles).
+
+---
+
+## 🎓 Practice Projects (Apply Your Skills)
+To truly master these concepts, try building one of these from scratch. Focus on implementing the **Phase 1-5 patterns** in each one.
+
+### 1. Personal Finance Tracker API
+*   **The Goal:** A tool to track daily expenses and income.
+*   **Real-World Use:** Helps users budget and see where their money goes.
+*   **Reinforcement Focus:** 
+    *   **Validation:** Ensure amounts are positive numbers and dates are valid.
+    *   **JWT:** Users should only be able to see and edit *their own* transactions.
+    *   **Enums:** Use Mongoose enums for categories (e.g., `Food`, `Rent`, `Salary`).
+
+### 2. Private Note-Taking App
+*   **The Goal:** A secure API for creating and storing personal notes/reminders.
+*   **Real-World Use:** A basic version of Evernote or Google Keep.
+*   **Reinforcement Focus:**
+    *   **Security:** Practice hashing passwords and protecting "Private" vs "Public" notes.
+    *   **Error Handling:** Handle 404s when a user tries to access a note ID that doesn't exist.
+    *   **Testing:** Write tests to ensure User A cannot read User B's private notes.
+
+### 3. Link Shortener Service
+*   **The Goal:** Take a long URL and return a short code (e.g., `/s/1a2b3c`).
+*   **Real-World Use:** Essential for social media and marketing tracking.
+*   **Reinforcement Focus:**
+    *   **Validation:** Use `express-validator` to ensure the input is a real, formatted URL.
+    *   **Logic:** Implement a redirect controller that finds the long URL and uses `res.redirect()`.
+    *   **Global Errors:** Catch errors when a short-code is expired or not found.
+
+### 4. Simple Event Booking API
+*   **The Goal:** List local events (concerts, meetups) and allow users to "RSVP."
+*   **Real-World Use:** A mini version of Eventbrite or Meetup.com.
+*   **Reinforcement Focus:**
+    *   **Data Integrity:** Prevent "overbooking" by checking if seats are available before saving an RSVP.
+    *   **Middlewares:** Create an `isAdmin` middleware to allow only certain users to create new events.
+    *   **Integration Testing:** Test the full flow: Register -> Login -> View Event -> RSVP.
